@@ -83,15 +83,10 @@ sub _extract_info_for_stop($$)
 sub _populate_results($$)
 {
 	my($results, $stop_info) = @_;
-	my($id) = $stop_info{code};
+	my($id) = $stop_info->{code};
 	
-	$results->{$id} //= {};
-	$results->{$id}{name} = $stop_info{name} if defined $stop_info{name};
-	$results->{$id}{desc} = $stop_info{desc} if defined $stop_info{desc};
-	$results->{$id}{img_map} = $stop_info{img_map} if defined $stop_info{img_map};
-	$results->{$id}{lat} = stop_info{lat} if defined $stop_info{lat};
-	$results->{$id}{lon} = stop_info{lon} if defined $stop_info{lon};
-	$results->{$id}{transport};
+	$result->{$id} //= {};
+	$result->{$id} = {%$result->{$id}, %$stop_info};
 }
 
 sub _get_on_ground_transport_info
