@@ -53,11 +53,20 @@ sub _save_xml
 	my($db, $file) = @_;
 	my($xs, $fh);
 	
-	open $fh, '>:encoding(utf-8)', $file or return 0;#die "open($out_file): $!";
+	open $fh, '>:encoding(utf-8)', $file or die "open($out_file): $!";
 	$xs = XML::Simple->new(KeyAttr => 'code', OutputFile => $fh);
 	$xs->XMLout({stop => $db});
 	
+	close $fh or die "close($out_file): $!";
+	
 	1;
+}
+
+sub get_db
+{
+	my($self) = @_;
+	
+	return $self->{db};
 }
 
 sub save
@@ -71,7 +80,6 @@ sub saveTo
 	my($self, $file) = @_;
 	_save_db($self->{db}, $file);
 }
-
 
 sub populate
 {

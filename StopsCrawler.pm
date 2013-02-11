@@ -80,7 +80,7 @@ sub _extract_info_for_stop($$)
 	return $result;
 }
 
-sub _populate_results($$)
+sub _populate_stop_results($$)
 {
 	my($results, $stop_info) = @_;
 	my($id) = $stop_info->{code};
@@ -122,7 +122,7 @@ sub _get_on_ground_transport_info
 					$w->submit();
 					
 					$stop_info = _extract_info_for_stop($w, $stop);
-					_populate_results($result, $stop_info);
+					_populate_stop_results($result, $stop_info);
 				}
 			}
 		}
