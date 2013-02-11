@@ -86,7 +86,7 @@ sub _populate_results($$)
 	my($id) = $stop_info->{code};
 	
 	$result->{$id} //= {};
-	$result->{$id} = {%$result->{$id}, %$stop_info};
+	$result->{$id} = {%{$result->{$id}}, %$stop_info};
 }
 
 sub _get_on_ground_transport_info

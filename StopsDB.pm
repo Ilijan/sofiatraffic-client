@@ -79,7 +79,7 @@ sub populate
 	my($db) = $self->{db};
 
 	$db->{$stop} //= {};
-	$db->{$stop} = {%$db->{$stop}, %$populate_info};
+	$db->{$stop} = {%{$db->{$stop}}, %$populate_info};
 }
 
 sub populate_from_file
@@ -90,3 +90,5 @@ sub populate_from_file
 	$file_content = _read_db($file);
 	$self->populate($file_content);
 }
+
+1;
