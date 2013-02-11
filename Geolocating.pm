@@ -56,3 +56,5 @@ sub get_coords_by_address
 	
 	_google_coords_by_addr $address;
 }
+
+1;
