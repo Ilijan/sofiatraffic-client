@@ -16,7 +16,7 @@ sub new
 	my($class, $file) = @_;
 	my($self) = {
 		file	=> $file,
-		db		=> _read_db($file);
+		db		=> _read_db($file),
 	};
 	
 	bless $self, $class;
@@ -38,7 +38,7 @@ sub _read_xml
 	$xs = XML::Simple->new(KeyAttr => { stop => 'code' });
 	$content = $xs->XMLin($file);
 	
-	return $content{stop};
+	return $content->{stop};
 }
 
 sub _save_db

@@ -39,7 +39,7 @@ sub get_nearest
 	my($result, $coords, @delta, @square);
 	$result = [];
 	
-	foreach $stop_code ($self->{$db})
+	foreach $stop_code ($self->{db})
 	{
 		$coords = get_coords $stop_code;
 		if($coords)
