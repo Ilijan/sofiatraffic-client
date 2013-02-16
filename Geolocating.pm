@@ -4,6 +4,9 @@ package Geolocating;
 
 use JSON;
 use LWP::Simple;
+use Exporter;
+@ISA = qw(Exporter);
+@EXPORT = qw(get_address_by_coords get_coords_by_address);
 
 #TODO caching results
 sub _google_addr_by_coords

@@ -16,7 +16,7 @@ sub new
 	my($class, $file) = @_;
 	my($self) = {
 		file	=> $file,
-		db		=> _read_db($file),
+		#db		=> _read_db($file),
 	};
 	
 	bless $self, $class;
@@ -65,6 +65,13 @@ sub _save_xml
 sub get_db
 {
 	my($self) = @_;
+	
+	return $self->{db};
+}
+
+sub set_db
+{
+	my($self, $db) = @_;
 	
 	return $self->{db};
 }

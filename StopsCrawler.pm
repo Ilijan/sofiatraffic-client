@@ -59,6 +59,17 @@ sub _extract_stop_desc($)
 	return $result;
 }
 
+sub _add_transport_info($$)
+{
+	my($stop_data, $transport_info) = @_;
+	
+	if($transport_info->{transport_type} == 1)      { push $stop_data->{transport}->{bus}, $transport_info->{line}; }
+	elsif($transport_info->{transport_type} == 0)   { push $stop_data->{transport}->{tram}, $transport_info->{line}; }
+	elsif($transport_info->{transport_type} == 2)   { push $stop_data->{transport}->{trolley_bus}, $transport_info->{line}; }
+	
+	return $stop_data;
+}
+
 sub _extract_info_for_stop($$)
 {
 	my($w, $stop) = @_;
@@ -70,11 +81,11 @@ sub _extract_info_for_stop($$)
 		$code = $1;
 		$name = $2;
 		
-		$result{code} = $code;
-		$result{name} = $name;
+		$result->{code} = $code;
+		$result->{name} = $name;
 		
-		$result{desc} = _extract_stop_desc($w);
-		$result{img_map} = $w->document->getElementById($virtual_table{stop_image_map_tag}{id})->src;
+		$result->{desc} = _extract_stop_desc($w);
+		$result->{img_map} = $w->document->getElementById($virtual_table{stop_image_map_tag}{id})->src;
 	}
 	
 	return $result;
@@ -94,15 +105,15 @@ sub _get_on_ground_transport_info
 	my($result, $transport_types, $transport_lines, $transport_stops, $stop_info);
 	$result = {};
 	
-	$w = new WWW::Scripter();
+	$w = WWW::Scripter->new;
 	$w->use_plugin('JavaScript');
 	
 	$w->get($virtual_table{url});
 	
 	$transport_types = _get_select_options($w, $virtual_table{transport_type_tag}{name});
-	foreach $value (values %$transport_types)
+	foreach $transport_type (values %$transport_types)
 	{
-		$w->select($virtual_table{transport_type_tag}{name}, $value);
+		$w->select($virtual_table{transport_type_tag}{name}, $transport_type);
 		$w->submit();
 		
 		$transport_lines = _get_select_options($w, $virtual_table{lines_tag}{name});
@@ -122,6 +133,7 @@ sub _get_on_ground_transport_info
 					$w->submit();
 					
 					$stop_info = _extract_info_for_stop($w, $stop);
+					$stop_info = _add_transport_info($stop_info, {transport_type => $transport_type, line => $line_num_value});
 					_populate_stop_results($result, $stop_info);
 				}
 			}
